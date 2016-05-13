@@ -3,65 +3,74 @@ public class Pilha {
 	
 	private static class Node {
 		Node next;
-		double num;
-		Node(double novoNum , Node p) {
-			num = novoNum;
+		String simbolo;
+		Node(String novoSimbolo , Node p) {
+			simbolo = novoSimbolo;
 			next = p;
 		}
 	}	
 	
-	private Node last;
+	private Node top;
 	private int count;
 	private int total;
 	
 	public Pilha(){
-		last = null;
+		top = null;
 		count = 0;
 		total = 0;
 	}
-	public void push(double num){
+	/*public void push(double num){
 		Node p = new Node(num, last);
 		last = p;
 		count++;
 		if(total < count)total++;
+	}*/
+	
+	public Node top(){		
+		return top;
 	}
 	
-	
-	public void push(int num){
-		double n = num;
-		Node p = new Node(n, last);
-		last = p;
+	public void push(String simbolo){
+		String n = simbolo;
+		Node p = new Node(n, top);
+		top = p;
 		count++;
 		if(total < count)total++;
 	}
 	
-	public double pop(){
-		double aux = last.num;
-		if(isEmpty())return -1;
-		last = last.next;
+	public void clear(){
+		while(!isEmpty()){
+			pop();
+		}		
+	}
+	
+	public String pop(){
+		String aux = top.simbolo;
+		if(isEmpty())return "pilha está vazia";
+		top = top.next;
 		count--;		
 		return aux;
 	}
 	public boolean isEmpty(){
-		if(last == null)return true;
+		if(top == null)return true;
 		return false;
 	}
 	
 	
 	public String print(){
-		String s = print(last, "[");
+		String s = print(top, "[");
 		return s;
 	}
 	
 	public String print(Node p, String s){
 		if(p == null)return s + "]";
-		s += p.num + "";
+		s += p.simbolo + "";
 		return print(p.next, s);
 	}
 	
 	
 	public String printR(){
-		String s = printR(last, "[");
+		String s = printR(top, "[");
 		s += "]";
 		return s;		
 	}
@@ -70,59 +79,86 @@ public class Pilha {
 	public String printR(Node p, String s){
 		if(p == null)return s;		
 		s = printR(p.next, s);
-		return s + p.num + "";
+		return s + p.simbolo + "";
+	}
+	
+	public String calcula(){
+		String fim = "";
+		return calcula(fim);
+	}
+	private String calcula(String resultado){
+		
+		String a =pop();
+		String b =pop();
+		String c=pop();
+		
+		if(b.equals("+")){
+			soma(a, c);
+		}
+		
+		if(b.equals("-")){
+			subtracao(c,a);
+		}
+		
+		if(b.equals("/")){
+				divisao(c,a);
+		}
+		
+		if(b.equals("*")){
+			multiplicacao(c,a);
+		}
+		if(b.equals("^")){
+			potencia(c,a);
+		}
+		return calcula(resultado);
+		
 	}
 
-	public void soma(){
-		push(pop() + pop());		
-	}
-	
-	public void mult(){
-		push(pop() * pop());
-	}
-	
-	public void menos(){
-		push(pop() - pop());
-	}
-	
-	public void div(){
-		push(pop() / pop());
-	}
-	
-	
-	//////////RESTO
-	public void dup(){
-		double aux = pop();
+	public String soma(String a, String b){
+		String aux = ""; 
+		aux =  aux + (Double.parseDouble(a) + Double.parseDouble(b));	
 		push(aux);
+		return aux;
+	}
+	
+	public String multiplicacao(String a, String b){
+		String aux = ""; 
+		aux =  aux + (Double.parseDouble(a) * Double.parseDouble(b));	
 		push(aux);
+		return aux;
 	}
 	
-	public void swap(){
-		double aux1 = pop();
-		double aux2 = pop();
-		push(aux1);
-		push(aux2);
+	public String subtracao(String a, String b){
+		String aux = ""; 
+		aux =  aux + (Double.parseDouble(a) - Double.parseDouble(b));	
+		push(aux);
+		return aux;
 	}
 	
-	public void sin(){
-		push(Math.sin( pop() ));
+	public String divisao(String a, String b){
+		String aux = ""; 
+		aux =  aux + (Double.parseDouble(a) / Double.parseDouble(b));
+		push(aux);
+		return aux;
 	}
-	public void cos(){
-		push( Math.cos( pop() ));
+	
+	public String potencia(String a, String b){
+		String aux ="";
+		aux = aux + (Math.pow(Double.parseDouble(a), Double.parseDouble(b)));
+		push(aux);
+		return aux;
 	}
-	public void atan(){
-		push( Math.atan2(pop(), pop()) );
-	}
+	
 	
 	public int max(){
 		return total;
 	}
 	
-	public int cont(){ return count;};
+	public int size(){ return count;};
 	
 	
-	public double ultimo(){
-		return last.num;
+	public String ultimo(){
+		return top.simbolo;
 	}
 
 }
