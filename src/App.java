@@ -7,11 +7,9 @@ public class App {
 		Pilha pilha = new Pilha();
 		
 			while(in.hasNext()){
-				String simbolo = in.next();
+				String simbolo = in.nextLine();
 				String[] lista = simbolo.split(" ");
-				for(String a  : lista){
-					pilha.push(a);
-				}
+				
 				pilha.calcula(lista);
 				
 			}

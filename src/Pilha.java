@@ -60,12 +60,15 @@ public class Pilha {
 		double a;
 		String c;
 		double b;
+		
+		try{
 		for (int i = 0; i < valores.length; i++) {
 			if (valores[i].equals(")"))// aqui
 			{
 				a = Double.parseDouble(pop());
 				c = pop();
 
+				
 				while (!c.equals("(")) {
 					b = Double.parseDouble(pop());
 					switch (c) {
@@ -91,15 +94,20 @@ public class Pilha {
 				}
 			} else {
 				push(valores[i]);
-			}
+			}			
 		}
-		// relatório RESULTADO, TAMANHO MAX
+		}
+		catch (Exception NumberFormatException){
+			return ;
+		}
+		finally {
+			// relatório RESULTADO, TAMANHO MAX
+			System.out.println("Resultado: " + pop());
+			System.out.println("Tamanho maxixmo da pilha: " + max()+"\n");
+		}
 		
 		
-		System.out.println("Expressão: ");
 		
-		System.out.println("Resultado: " + pop());
-		System.out.println("Tamanho maxixmo da pilha: " + max()+"\n");
 
 	}
 
